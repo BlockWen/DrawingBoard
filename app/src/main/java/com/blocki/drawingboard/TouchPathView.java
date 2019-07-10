@@ -121,7 +121,7 @@ public class TouchPathView extends View {
     public void reset(){
         path.reset();
         invalidate();
-        //canvas刮大白，哈哈（属于涂抹canvas所有像素变为白色或其他颜色）
+        //canvas刮大白，哈哈（属于涂抹canvas所有像素变为白色或其他的颜色）
         mCanvas.drawColor(Color.WHITE);
     }
 
