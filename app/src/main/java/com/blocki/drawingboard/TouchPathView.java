@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class TouchPathView extends View {
         paint.setStyle(Paint.Style.STROKE);
         //画笔粗细
         paint.setStrokeWidth(5);
-        //设置是否抗锯齿
+        //设置是否抗锯齿 如果使用，会使绘图速度变慢
         paint.setAntiAlias(true);
 
         path = new Path();
@@ -69,10 +70,12 @@ public class TouchPathView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         Log.d(TAG, "onSizeChanged: ");
         super.onSizeChanged(w, h, oldw, oldh);
+
         mBitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
         //填充背景色
         mBitmap.eraseColor(Color.WHITE);
         mCanvas = new Canvas(mBitmap);
+
     }
 
     @Override
@@ -84,6 +87,7 @@ public class TouchPathView extends View {
                 path.moveTo(event.getX(),event.getY());
                 return true;
             case MotionEvent.ACTION_MOVE:
+                //移动时
                 Log.d(TAG, "onTouchEvent: move");
                 path.lineTo(event.getX(),event.getY());
                 invalidate();//也可使用postInvalidate方法进行重绘（postInvalidate是异步的，也就是使用handler post一个message）
@@ -117,6 +121,8 @@ public class TouchPathView extends View {
     public void reset(){
         path.reset();
         invalidate();
+        //canvas刮大白，哈哈（属于涂抹canvas所有像素变为白色或其他颜色）
+        mCanvas.drawColor(Color.WHITE);
     }
 
     /**
