@@ -70,6 +70,8 @@ public class TouchPathView extends View {
         Log.d(TAG, "onSizeChanged: ");
         super.onSizeChanged(w, h, oldw, oldh);
         mBitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+        //填充背景色
+        mBitmap.eraseColor(Color.WHITE);
         mCanvas = new Canvas(mBitmap);
     }
 
@@ -104,12 +106,12 @@ public class TouchPathView extends View {
         super.onDraw(canvas);
 
         canvas.drawPath(path,paint);
-        mCanvas.drawPath(path,paint);
+
     }
 
     //绘制到bitmap中
     private void drawBitMap(){
-
+        mCanvas.drawPath(path,paint);
     }
 
     public void reset(){
